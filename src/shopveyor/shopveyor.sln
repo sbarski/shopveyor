@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shopveyor.core", "shopveyor.core\shopveyor.core.csproj", "{0A406FFA-DEA7-455C-8D23-83B07491370C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shopveyor.test", "shopveyor.test\shopveyor.test.csproj", "{1D731541-6BC2-4DEB-86FB-66E5BF01FBD5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A406FFA-DEA7-455C-8D23-83B07491370C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A406FFA-DEA7-455C-8D23-83B07491370C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A406FFA-DEA7-455C-8D23-83B07491370C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A406FFA-DEA7-455C-8D23-83B07491370C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D731541-6BC2-4DEB-86FB-66E5BF01FBD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D731541-6BC2-4DEB-86FB-66E5BF01FBD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D731541-6BC2-4DEB-86FB-66E5BF01FBD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D731541-6BC2-4DEB-86FB-66E5BF01FBD5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
