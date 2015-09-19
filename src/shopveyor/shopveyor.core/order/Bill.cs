@@ -7,6 +7,9 @@ using System.Configuration;
 
 namespace shopveyor.core.order
 {
+    /// <summary>
+    /// The bill domain entity that contains a collection of order items and carries out calculations
+    /// </summary>
     public class Bill : IAggregateRoot, IBill
     {
         private readonly IUser _user;

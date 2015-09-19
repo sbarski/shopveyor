@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace shopveyor.core.infrastructure
 {
     /// <summary>
-    /// To create a bounded context we will use aggregate roots
+    /// Used to help create a bounded context for the application and signify roots
     /// </summary>
     public interface IAggregateRoot
     {

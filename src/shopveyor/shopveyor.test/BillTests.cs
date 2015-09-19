@@ -1,4 +1,7 @@
-﻿using shopveyor.core.order;
+﻿using System;
+using System.Configuration;
+using System.Linq;
+using shopveyor.core.order;
 using shopveyor.core.products;
 using Xunit;
 
@@ -7,12 +10,29 @@ namespace shopveyor.test
     public class BillTests : IClassFixture<UserFixture>
     {
         private readonly UserFixture _userFixture;
+        private readonly decimal _discount;
 
         public BillTests(UserFixture userFixture)
         {
             _userFixture = userFixture;
+            _discount = Convert.ToDecimal(ConfigurationManager.AppSettings["finaldiscount"]);
         }
 
+        [Fact]
+        public void Can_Create_Valid_Bill()
+        {
+            var bill = new Bill(_userFixture.NewCustomer);
+
+            Assert.Equal(0, bill.OrderItems.Count());
+
+            bill.AddToBill(new Product(25));
+            bill.AddToBill(new Product(50));
+            bill.AddToBill(new Product(75));
+            bill.AddToBill(new Product(100));
+
+            Assert.Equal(4, bill.OrderItems.Count());
+            Assert.Equal(_userFixture.NewCustomer, bill.User);
+        }
 
         [Fact]
         public void Customer_Under_2_Years_Bill_With_Non_Grocery_Products()
@@ -29,7 +49,7 @@ namespace shopveyor.test
             Assert.Equal(expectedTotal, bill.Total());
 
             //2 items worth $990
-            bill.AddToBill(new Product(940.0M));
+            bill.AddToBill(new Product(940));
             expectedTotal = 990 - 45;
             Assert.Equal(expectedTotal, bill.Total());
 
@@ -59,7 +79,7 @@ namespace shopveyor.test
             Assert.Equal(expectedTotal, bill.Total());
 
             //2 items worth $990
-            bill.AddToBill(new Product(940.0M, true));
+            bill.AddToBill(new Product(940, true));
             expectedTotal = 990 - 45;
             Assert.Equal(expectedTotal, bill.Total());
 
@@ -91,17 +111,17 @@ namespace shopveyor.test
 
             //2 items worth $990
             bill.AddToBill(new Product(940.0M));
-            expectedTotal = (990 - (990*percentageDiscount) - 45);
+            expectedTotal = CalculateDiscount(990 - (990 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
 
             //3 Items worth $1040
             bill.AddToBill(new Product(50));
-            expectedTotal = (1040 - (1040*percentageDiscount) - 45);
+            expectedTotal = CalculateDiscount(1040 - (1040 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
 
             //4 items worth 1100
             bill.AddToBill(new Product(60));
-            expectedTotal = (1100 - (1100*percentageDiscount) - 50);
+            expectedTotal = CalculateDiscount(1100 - (1100 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
         }
 
@@ -122,17 +142,17 @@ namespace shopveyor.test
 
             //2 items worth $990
             bill.AddToBill(new Product(940));
-            expectedTotal = (990 - (940 * percentageDiscount) - 45);
+            expectedTotal = CalculateDiscount(990 - (940 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
 
             //3 Items worth $1040
             bill.AddToBill(new Product(50, true));
-            expectedTotal = (1040 - (940 * percentageDiscount) - 45);
+            expectedTotal = CalculateDiscount(1040 - (940 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
 
             //4 items worth 1100
             bill.AddToBill(new Product(60));
-            expectedTotal = (1100 - (940 * percentageDiscount) - (60 * percentageDiscount) - 50);
+            expectedTotal = CalculateDiscount(1100 - (940 * percentageDiscount) - (60 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
         }
 
@@ -153,17 +173,17 @@ namespace shopveyor.test
 
             //2 items worth $990
             bill.AddToBill(new Product(940));
-            expectedTotal = (990 - (940 * percentageDiscount) - 35);
+            expectedTotal = CalculateDiscount(990 - (940 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
 
             //3 Items worth $1040
             bill.AddToBill(new Product(50, true));
-            expectedTotal = (1040 - (940 * percentageDiscount) - 35);
+            expectedTotal = CalculateDiscount(1040 - (940 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
 
             //4 items worth 1100
             bill.AddToBill(new Product(60));
-            expectedTotal = (1100 - (940 * percentageDiscount) - (60 * percentageDiscount) - 40);
+            expectedTotal = CalculateDiscount(1100 - (940 * percentageDiscount) - (60 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
         }
 
@@ -184,18 +204,25 @@ namespace shopveyor.test
 
             //2 items worth $990
             bill.AddToBill(new Product(940));
-            expectedTotal = (990 - (940 * percentageDiscount) - 40);
+            expectedTotal = CalculateDiscount(990 - (940 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
 
             //3 Items worth $1040
             bill.AddToBill(new Product(50, true));
-            expectedTotal = (1040 - (940 * percentageDiscount) - 45);
+            expectedTotal = CalculateDiscount(1040 - (940 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
 
             //4 items worth 1100
             bill.AddToBill(new Product(60));
-            expectedTotal = (1100 - (940 * percentageDiscount) - (60 * percentageDiscount) - 50);
+            expectedTotal = CalculateDiscount(1100 - (940 * percentageDiscount) - (60 * percentageDiscount));
             Assert.Equal(expectedTotal, bill.Total());
+        }
+
+        private decimal CalculateDiscount(decimal total)
+        {
+            total -= ((int) total/100)*_discount;
+
+            return total; 
         }
     }
 }
