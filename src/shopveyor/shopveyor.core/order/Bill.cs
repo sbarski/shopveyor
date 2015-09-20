@@ -30,9 +30,11 @@ namespace shopveyor.core.order
             //Work out total with discounts
             foreach (var orderItem in _orderItems)
             {
+                //User discount only applied to non-grocery items
                 total += orderItem.Product.IsGrocery ? orderItem.Price : (orderItem.Price - (orderItem.Price * _user.Discount));
             }
 
+            //Calculate secondary discount ($5 off every $100)
             return CalculateSecondaryDiscount(total);
         }
 
@@ -55,17 +57,8 @@ namespace shopveyor.core.order
             return orderItem;
         }
 
-        public IUser User
-        {
-            get { return _user; }
-        }
+        public IUser User => _user;
 
-        public IEnumerable<IOrderItem> OrderItems
-        {
-            get
-            {
-                return _orderItems;
-            }
-        }
+        public IEnumerable<IOrderItem> OrderItems => _orderItems;
     }
 }

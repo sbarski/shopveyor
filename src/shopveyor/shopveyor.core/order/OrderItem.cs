@@ -7,29 +7,14 @@ namespace shopveyor.core.order
     /// </summary>
     public class OrderItem : IOrderItem
     {
-        private readonly IProduct _product;
-        private readonly decimal _price;
-
         public OrderItem(IProduct product)
         {
-            _product = product;
-            _price = product.Price;
+            Product = product;
+            Price = product.Price;
         }
 
-        public IProduct Product
-        {
-            get
-            {
-                return _product;
-            }
-        }
+        public IProduct Product { get; }
 
-        public decimal Price
-        {
-            get
-            {
-                return _price;
-            }
-        }
+        public decimal Price { get; }
     }
 }

@@ -10,12 +10,6 @@ namespace shopveyor.core.users
         {
         }
 
-        public override decimal Discount
-        {
-            get
-            {
-                return Convert.ToDecimal(ConfigurationManager.AppSettings["employeediscount"]);
-            }
-        }
+        public override decimal Discount => Convert.ToDecimal(ConfigurationManager.AppSettings["employeediscount"]);
     }
 }

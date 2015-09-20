@@ -17,17 +17,8 @@ namespace shopveyor.core.users
             _dateJoined = dateJoined;
         }
 
-        public virtual decimal Discount
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public virtual decimal Discount => 0;
 
-        public DateTime DateJoined
-        {
-            get { return _dateJoined; }
-        }
+        public DateTime DateJoined => _dateJoined;
     }
 }
